@@ -26,7 +26,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # Guilds list
-guilds = [discord.Object(id=1267611269624496138), discord.Object(id=1324790404385734717)]
+guilds = [discord.Object(id=1324790404385734717)]
 
 # Setting up Client config & token
 token = '${{ secrets.BOT_TOKEN }}'

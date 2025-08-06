@@ -1,7 +1,8 @@
 import discord, logging, logging.handlers
-from discord import app_commands
+from discord import Embed, app_commands
 from typing import Literal, Union
-from mutations import Mutations, Conditions, AllowedSpecies
+from mutations import Mutations, Conditions, Illnesses
+from embedbuilder import EmbedBuilder
 import random
 
 # Declaring intents
@@ -60,12 +61,11 @@ async def ping(interaction: discord.Interaction):
     await interaction.response.send_message('Pong!')
 
 @client.tree.command()
-@app_commands.describe(mutation='The mutation you want to roll for', species="The species you want to roll for. If a species is not listed, it cannot have coat mutations")
-async def rollmutations(interaction: discord.Interaction, mutation: Mutations, species: AllowedSpecies):
+@app_commands.describe(mutation='The mutation you want to roll for')
+async def rollmutations(interaction: discord.Interaction, mutation: Mutations):
     """Roll a mutation for your creature"""
 
     mut = ""
-    species = species.name
     rand = random.random() * 100
     chance = 0.0
     suceeded = ""
@@ -86,17 +86,10 @@ async def rollmutations(interaction: discord.Interaction, mutation: Mutations, s
         else:
             suceeded = None
 
-    embed = discord.Embed(
-            colour=(discord.Colour.from_str('#f2481d')),
-            type='rich',
-            title=f'\U0001f3b2 Rolling {mut}')
-    # embed.add_field(name='DEBUG', value=f'rand is {rand}, chance is {chance}, val is {suceeded}', inline=True)
-    embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1379904782587793408/1379909643022893136/IMG_6121.png?ex=687e9980&is=687d4800&hm=0554322a878182f9a4d1e1f9cd7d0aa27d537ee02ef961616fc27077ef1e6530&")
-
     if(suceeded == None or suceeded == ""):
-        embed.add_field(name='No mutation rolled', value=f'Your {species} did not roll a mutation!', inline=True)
+        embed = EmbedBuilder(type='mut', value=mut, sucess=False)
     else:
-        embed.add_field(name=f'Rolled {suceeded}', value=f'Your {species} rolled **{suceeded}** as a mutation!', inline=True)
+        embed = EmbedBuilder(type='mut', value=mut, sucess=True)
 
     await interaction.response.send_message(embed=embed)
 
@@ -110,14 +103,6 @@ async def rollconditions(interaction: discord.Interaction):
     chance = 0.0
     suceeded = ""
 
-    embed = discord.Embed(
-        colour=(discord.Colour.from_str('#f2481d')),
-        type='rich',
-        title=f'\U0001f3b2 Rolling health conditions')
-
-    embed.set_thumbnail(
-        url="https://cdn.discordapp.com/attachments/1379904782587793408/1379909643022893136/IMG_6121.png?ex=687e9980&is=687d4800&hm=0554322a878182f9a4d1e1f9cd7d0aa27d537ee02ef961616fc27077ef1e6530&")
-
     for condition in Conditions:
         cond = condition.name
         chance = condition.value
@@ -125,13 +110,36 @@ async def rollconditions(interaction: discord.Interaction):
             suceeded = cond
             break
 
-    
     if(suceeded == ""):
-        embed.add_field(name='No condition rolled', value='You did not roll a health condition!', inline=True)
+        embed = EmbedBuilder(type='cond', value=None, sucess=False)
     else:
-        embed.add_field(name=f'Rolled {suceeded.replace("_", " ")}', value=f'You rolled **{suceeded.replace("_", " ")}** as a health condition!', inline=True)
-    
+        embed = EmbedBuilder(type='cond', value=suceeded.replace("_", " "), sucess=True)
+
     await interaction.response.send_message(embed=embed)
+
+@client.tree.command()
+@app_commands.describe()
+async def rollillness(interaction: discord.Interaction):
+    """Roll an acute illness for your creature"""
+    cond = ""
+    rand = random.random() * 100
+    chance = 0.0
+    suceeded = ""
+
+    for illness in Illnesses:
+        cond = illness.name
+        chance = illness.value
+        if(chance > rand):
+            suceeded = cond
+            break
+
+    if(suceeded == ""):
+        embed = EmbedBuilder(type='disease', value=None, sucess=False)
+    else:
+        embed = EmbedBuilder(type='disease', value=suceeded.replace("_", " "), sucess=True)
+
+    await interaction.response.send_message(embed=embed)
+
 
 # Disable log handler since we built our own
 client.run(token, log_handler=None)

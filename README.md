@@ -13,6 +13,6 @@ TLOM Utility (TLOMUtils) is a Discord bot designed to provide members with a mor
 - More planned!
 
 ## Commands
-- `/rollmutations`: Rolls a random mutation for either albinism, melanism, piebaldism, leucism, or all four at once. Requires users to select a species to ensure that species can have coat mutations.
+- `/rollmutations`: Rolls a random mutation for either albinism, melanism, piebaldism, leucism, or all four at once. 
 - `/rollconditions`: Rolls a random health condition, ranging from milder conditions like colorblindness to severe conditions like a weak immune system.
-- `/rollillness`: Rolls a random acute illness for players to roleplay being sick from wounds, rotten meat, etc. (Planned)
+- `/rollillness`: Rolls a random acute illness for players to roleplay being sick from wounds, rotten meat, etc. 

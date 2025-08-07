@@ -1,6 +1,5 @@
 import discord, logging, logging.handlers
 from discord import Embed, app_commands
-from typing import Literal, Union
 from mutations import Mutations, Conditions, Illnesses
 from embedbuilder import EmbedBuilder
 import random
@@ -86,10 +85,12 @@ async def rollmutations(interaction: discord.Interaction, mutation: Mutations):
         else:
             suceeded = None
 
-    if(suceeded == None or suceeded == ""):
-        embed = EmbedBuilder(type='mut', value=mut, sucess=False)
+    if((suceeded is None or suceeded == "") and mut == "all mutations"):
+        embed = EmbedBuilder(type='mut', rolled=suceeded, sucess=False)
+    elif(suceeded is None or suceeded == ""):
+        embed = EmbedBuilder(type='mut', rolled=mut, sucess=False, value=mut)
     else:
-        embed = EmbedBuilder(type='mut', value=mut, sucess=True)
+        embed = EmbedBuilder(type='mut', rolled=suceeded, sucess=True, value=mut)
 
     await interaction.response.send_message(embed=embed)
 
@@ -111,9 +112,9 @@ async def rollconditions(interaction: discord.Interaction):
             break
 
     if(suceeded == ""):
-        embed = EmbedBuilder(type='cond', value=None, sucess=False)
+        embed = EmbedBuilder(type='cond', rolled=None, sucess=False)
     else:
-        embed = EmbedBuilder(type='cond', value=suceeded.replace("_", " "), sucess=True)
+        embed = EmbedBuilder(type='cond', rolled=suceeded.replace("_", " "), sucess=True)
 
     await interaction.response.send_message(embed=embed)
 
@@ -134,9 +135,9 @@ async def rollillness(interaction: discord.Interaction):
             break
 
     if(suceeded == ""):
-        embed = EmbedBuilder(type='disease', value=None, sucess=False)
+        embed = EmbedBuilder(type='disease', rolled=None, sucess=False)
     else:
-        embed = EmbedBuilder(type='disease', value=suceeded.replace("_", " "), sucess=True)
+        embed = EmbedBuilder(type='disease', rolled=suceeded.replace("_", " "), sucess=True)
 
     await interaction.response.send_message(embed=embed)
 

@@ -1,18 +1,23 @@
 import discord
 
-def EmbedBuilder(type: str, value: str, sucess: bool):
+def EmbedBuilder(type: str, rolled: str, sucess: bool, value=None):
     """Creates a Discord embed with the specified values according to a format.
     
     Keyword arguments:
     type -- the type of embed (allowed: mut, cond, disease)
-    value -- the value being rolled, such as "all mutations"
+    rolled -- the value that was rolled
     sucess -- whether the roll was sucessful or not
+    value -- what is being rolled. used only for mutations. (default: None)
     """
+
     title_string = ""
 
     match type:
         case "mut":
-            title_string = f"\U0001f3b2 Rolling {value}"
+            if(value is None):
+                title_string = f"\U0001f3b2 Rolling all mutations"
+            else:
+                title_string = f"\U0001f3b2 Rolling {value}"
         case "cond":
             title_string = f"\U0001f3b2 Rolling health conditions"
         case "disease":
@@ -32,18 +37,18 @@ def EmbedBuilder(type: str, value: str, sucess: bool):
 
     if(sucess and type is "mut"):
         embed.add_field(
-            name=f'Rolled {value}',
-            value=f'You rolled **{value}** as a mutation!',
+            name=f'Rolled {rolled}',
+            value=f'You rolled **{rolled}** as a mutation!',
             inline=True)
     elif(sucess and type is "cond"):
         embed.add_field(
-            name=f"Rolled {value}",
-            value=f'You rolled **{value}** as a health condition!',
+            name=f"Rolled {rolled}",
+            value=f'You rolled **{rolled}** as a health condition!',
             inline=True)
     elif(sucess and type is "disease"):
         embed.add_field(
-            name=f"Rolled {value}",
-            value=f'You rolled **{value}** as an illness!',
+            name=f"Rolled {rolled}",
+            value=f'You rolled **{rolled}** as an illness!',
             inline=True)
     elif(type is "mut"):
         embed.add_field(

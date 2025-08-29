@@ -1,0 +1,47 @@
+{
+  "token": "${{ secrets.BOT_TOKEN }}",
+
+  "mutations": {
+    "albinism": 10.0,
+    "melanism": 12.0,
+    "piebaldism": 12.0,
+    "leucism": 10.0,
+    "all": 0.0
+  },
+
+  "conditions": {
+    "dwarfism": 0.6,
+    "immune deficiency": 0.7,
+    "blindness": 1.0,
+    "deafness": 1.0,
+    "muscular weakness": 1.2,
+    "hypersomnia": 5.0,
+    "asthma": 7.0,
+    "infertility": 10.0,
+    "severe allergy": 12.0,
+    "chronic pain": 14.0,
+    "insomnia": 15.0,
+    "colorblindness": 18.0,
+    "severe phobia": 20.0
+  },
+
+  "illnesses": {
+    "Chronic Wasting Disease": 0.8,
+    "rabies": 0.9,
+    "haemorrhagic fever": 1.0,
+    "amoebiasis": 2.0,
+    "anaplasmosis": 4.0,
+    "meningitis": 5.0,
+    "pneumonia": 7.0,
+    "influenza": 10.0,
+    "rain rot": 12.0,
+    "the common cold": 25.0
+  },
+
+  "genders": {
+    "female": 50.0,
+    "male": 50.0,
+    "high testosterone female": 5.0,
+    "low testosterone male": 5.0
+  }
+}
